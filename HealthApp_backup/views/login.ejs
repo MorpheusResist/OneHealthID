@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login – HealthSync</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono&display=swap" rel="stylesheet"/>
+  <style>
+    *{font-family:'DM Sans',sans-serif}
+    code,pre{font-family:'DM Mono',monospace}
+    .gradient-bg{background:linear-gradient(135deg,#f0fdfa 0%,#e0f2fe 50%,#f0fdf4 100%)}
+    .card-hover{transition:all .3s cubic-bezier(.4,0,.2,1)}
+    .card-hover:hover{transform:translateY(-4px);box-shadow:0 20px 40px -12px rgba(20,184,166,.15)}
+    .badge-read{background:#dbeafe;color:#1d4ed8}
+    .badge-write{background:#dcfce7;color:#166534}
+    .badge-admin{background:#fee2e2;color:#991b1b}
+    .progress-track{background:#e2e8f0;border-radius:999px;overflow:hidden}
+    .progress-bar{height:8px;border-radius:999px;background:linear-gradient(90deg,#14b8a6,#0ea5e9);transition:width 1s ease}
+    .timeline-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:4px}
+    .fade-in{animation:fadeIn .5s ease forwards;opacity:0}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    .stagger-1{animation-delay:.1s}.stagger-2{animation-delay:.2s}.stagger-3{animation-delay:.3s}.stagger-4{animation-delay:.4s}.stagger-5{animation-delay:.5s}
+  </style>
+</head>
+<body class="min-h-screen gradient-bg flex items-center justify-center p-4">
+
+  <!-- Decorative blobs -->
+  <div class="fixed top-0 left-0 w-96 h-96 bg-teal-200/30 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+  <div class="fixed bottom-0 right-0 w-96 h-96 bg-cyan-200/30 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 pointer-events-none"></div>
+
+  <div class="relative w-full max-w-md fade-in">
+    <!-- Logo -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-500 to-cyan-600 shadow-xl mb-4">
+        <i class="fa-solid fa-heart-pulse text-white text-2xl"></i>
+      </div>
+      <h1 class="text-3xl font-bold text-slate-800 tracking-tight">HealthSync</h1>
+      <p class="text-slate-500 mt-1 text-sm">Unified Health Intelligence Platform</p>
+    </div>
+
+    <!-- Card -->
+    <div class="bg-white/80 backdrop-blur-md rounded-3xl shadow-2xl border border-white/60 p-8">
+      <h2 class="text-xl font-semibold text-slate-800 mb-1">Welcome back</h2>
+      <p class="text-slate-500 text-sm mb-6">Sign in with your patient User ID to continue.</p>
+
+      <% if (error) { %>
+        <div class="mb-4 flex items-center gap-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl px-4 py-3">
+          <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
+          <span><%= error %></span>
+        </div>
+      <% } %>
+
+      <form method="POST" action="/login" class="space-y-5">
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1.5">Patient User ID</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+              <i class="fa-solid fa-id-card text-slate-400 text-sm"></i>
+            </div>
+            <input
+              type="number"
+              name="user_id"
+              placeholder="e.g. 1, 2, 3 …"
+              required
+              class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-800 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
+            />
+          </div>
+        </div>
+
+        <button type="submit"
+          class="w-full bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white font-semibold py-3 rounded-xl shadow-lg shadow-teal-200 hover:shadow-xl hover:shadow-teal-300 transition-all duration-300 flex items-center justify-center gap-2 text-sm">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i>
+          Sign In to Dashboard
+        </button>
+      </form>
+
+      <p class="text-center text-xs text-slate-400 mt-6">
+        <i class="fa-solid fa-lock mr-1"></i>
+        Your health data is encrypted and private.
+      </p>
+    </div>
+
+    <p class="text-center text-xs text-slate-400 mt-6">
+      Health Data Fragmentation Solution &middot; DBMS Project &copy; 2024
+    </p>
+  </div>
+</body>
+</html>

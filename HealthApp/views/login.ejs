@@ -1,0 +1,529 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>OneHealthID — India's Health Record System — OneHealthID</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,500&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#09101f;--ink2:#1d2b45;--ink3:#3a4a6b;
+  --mid:#6b7a99;--muted:#9ba8c4;--faint:#c8d0e4;
+  --border:#e3e8f2;--border2:#d0d7eb;
+  --bg:#f6f7fb;--surface:#ffffff;
+  --blue:#1B4FD8;--blue2:#1541b8;--blue-bg:#eef2ff;--blue-border:#c7d4f8;
+  --green:#0c6b3f;--green-bg:#edfaf4;--green-b:#a7e8c8;
+  --red:#b91c1c;--red-bg:#fef2f2;--red-b:#fecaca;
+  --amber:#92600a;--amber-bg:#fffbeb;--amber-b:#fde68a;
+  --r:12px;--r-sm:8px;--r-lg:20px;
+  --sh:0 1px 4px rgba(9,16,31,.06),0 1px 2px rgba(9,16,31,.04);
+  --sh-md:0 4px 20px rgba(9,16,31,.08),0 1px 4px rgba(9,16,31,.05);
+  --sh-lg:0 16px 60px rgba(9,16,31,.12),0 4px 16px rgba(9,16,31,.06);
+}
+html{font-size:15px;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;min-height:100vh}
+.serif{font-family:'Fraunces',serif}
+.mono{font-family:'DM Mono',monospace}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px}
+
+/* NAV */
+.ohid-nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:rgba(246,247,251,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);height:56px;
+  display:flex;align-items:center;
+}
+.ohid-nav-inner{
+  max-width:1200px;margin:0 auto;padding:0 28px;width:100%;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.ohid-logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.ohid-logo-mark{
+  width:30px;height:30px;border-radius:8px;background:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+}
+.ohid-logo-mark svg{width:16px;height:16px}
+.ohid-logo-name{font-family:'Fraunces',serif;font-size:.95rem;font-weight:500;color:var(--ink);letter-spacing:-.01em}
+.ohid-nav-links{display:flex;align-items:center;gap:1px}
+.ohid-nav-link{
+  padding:6px 13px;border-radius:7px;font-size:.82rem;font-weight:500;
+  color:var(--mid);text-decoration:none;transition:all .15s;display:flex;align-items:center;gap:6px;
+}
+.ohid-nav-link:hover{color:var(--ink);background:rgba(9,16,31,.05)}
+.ohid-nav-link.active{color:var(--blue);background:var(--blue-bg)}
+.ohid-nav-right{display:flex;align-items:center;gap:8px}
+.ohid-avatar{
+  width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;
+  font-size:.75rem;font-weight:600;display:flex;align-items:center;justify-content:center;
+  font-family:'DM Sans',sans-serif;
+}
+.ohid-signout{
+  font-size:.78rem;font-weight:500;color:var(--mid);text-decoration:none;
+  padding:5px 11px;border-radius:7px;border:1px solid var(--border2);
+  background:var(--surface);transition:all .15s;
+}
+.ohid-signout:hover{color:var(--red);border-color:var(--red-b);background:var(--red-bg)}
+
+/* PAGE SHELL */
+.ohid-page{padding-top:56px}
+.ohid-wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh)}
+.card-lift{transition:transform .2s,box-shadow .2s,border-color .2s}
+.card-lift:hover{transform:translateY(-2px);box-shadow:var(--sh-md);border-color:var(--border2)}
+
+/* BADGES */
+.badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:2px 8px;border-radius:99px;font-size:.68rem;font-weight:600;
+  border:1px solid;letter-spacing:.02em;font-family:'DM Sans',sans-serif;
+}
+.bg{background:var(--green-bg);color:var(--green);border-color:var(--green-b)}
+.bb{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-border)}
+.br{background:var(--red-bg);color:var(--red);border-color:var(--red-b)}
+.by{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-b)}
+.bgr{background:var(--bg);color:var(--mid);border-color:var(--border)}
+
+/* INPUTS */
+.ohid-input{
+  width:100%;padding:10px 14px;border-radius:var(--r-sm);
+  border:1px solid var(--border2);background:var(--surface);
+  font-family:'DM Sans',sans-serif;font-size:.875rem;color:var(--ink);
+  transition:border-color .15s,box-shadow .15s;outline:none;
+}
+.ohid-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(27,79,216,.1)}
+.ohid-input::placeholder{color:var(--muted)}
+.ohid-input option{background:var(--surface);color:var(--ink)}
+
+/* BUTTONS */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:9px 18px;border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;
+  font-weight:500;font-size:.875rem;cursor:pointer;border:1px solid;text-decoration:none;
+  transition:all .15s;line-height:1;
+}
+.btn-p{background:var(--ink);color:#fff;border-color:var(--ink2);box-shadow:0 1px 3px rgba(9,16,31,.2)}
+.btn-p:hover{background:var(--ink2);transform:translateY(-1px);box-shadow:0 4px 16px rgba(9,16,31,.25)}
+.btn-g{background:transparent;color:var(--mid);border-color:var(--border2)}
+.btn-g:hover{background:var(--bg);color:var(--ink)}
+.btn-d{background:var(--red-bg);color:var(--red);border-color:var(--red-b)}
+.btn-d:hover{background:#fee2e2}
+
+/* SECTION LABEL */
+.sec-lbl{font-size:.68rem;font-weight:600;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+
+/* DIVIDER */
+.ohid-divider{height:1px;background:var(--border);margin:20px 0}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.08s}
+.reveal-delay-2{transition-delay:.16s}
+.reveal-delay-3{transition-delay:.24s}
+.reveal-delay-4{transition-delay:.32s}
+.reveal-delay-5{transition-delay:.40s}
+
+/* MODAL */
+.modal-overlay{
+  position:fixed;inset:0;z-index:300;background:rgba(9,16,31,.45);backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;padding:16px;
+}
+.modal-box{
+  background:var(--surface);border-radius:var(--r-lg);border:1px solid var(--border);
+  box-shadow:var(--sh-lg);width:100%;max-width:460px;padding:28px;
+}
+
+/* TOAST */
+#ohid-toasts{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px}
+.ohid-toast{
+  background:var(--ink);color:#fff;border-radius:var(--r-sm);
+  padding:11px 16px;font-size:.85rem;display:flex;align-items:center;gap:9px;
+  box-shadow:var(--sh-lg);animation:tIn .3s ease;min-width:220px;
+}
+@keyframes tIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* PAGE HEADER */
+.page-hdr{background:var(--surface);border-bottom:1px solid var(--border);padding:24px 0;margin-top:56px}
+.page-hdr-inner{max-width:1200px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.page-hdr-title{font-family:'Fraunces',serif;font-size:1.8rem;font-weight:500;color:var(--ink);letter-spacing:-.02em}
+.page-hdr-sub{font-size:.82rem;color:var(--mid);margin-top:3px}
+
+/* HEALTH ID CHIP */
+.hid-chip{
+  background:var(--ink);color:#fff;border-radius:var(--r-sm);
+  padding:10px 16px;display:inline-flex;align-items:center;gap:12px;
+}
+.hid-chip-lbl{font-size:.6rem;font-weight:600;opacity:.45;letter-spacing:.12em;text-transform:uppercase}
+.hid-chip-num{font-family:'DM Mono',monospace;font-size:1rem;font-weight:500;letter-spacing:.06em;margin-top:2px}
+.hid-chip-meta{font-size:.68rem;opacity:.4;margin-top:2px}
+
+/* TABLE */
+.ohid-tbl{width:100%;border-collapse:separate;border-spacing:0}
+.ohid-tbl th{background:var(--bg);color:var(--muted);font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:11px 16px;border-bottom:1px solid var(--border);text-align:left}
+.ohid-tbl td{padding:12px 16px;border-bottom:1px solid var(--border);font-size:.875rem;color:var(--mid);vertical-align:middle}
+.ohid-tbl tbody tr:last-child td{border-bottom:none}
+.ohid-tbl tbody tr:hover td{background:var(--bg)}
+
+/* PROGRESS */
+.prog{height:4px;background:var(--border);border-radius:99px;overflow:hidden}
+.prog-fill{height:100%;border-radius:99px;transition:width 1s ease}
+.prog-blue{background:var(--blue)}
+.prog-green{background:var(--green)}
+
+/* EMPTY */
+.ohid-empty{padding:40px;text-align:center;color:var(--muted)}
+.ohid-empty i{font-size:1.8rem;display:block;margin-bottom:10px;color:var(--faint)}
+</style>
+<style>
+body{background:#fff;overflow-x:hidden}
+
+/* ── TOP BAR ── */
+.lp-bar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(255,255,255,.92);backdrop-filter:blur(20px);
+  border-bottom:1px solid #f0f2f8;height:56px;
+  display:flex;align-items:center;
+}
+.lp-bar-inner{
+  max-width:1180px;margin:0 auto;padding:0 32px;width:100%;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.lp-brand{display:flex;align-items:center;gap:9px;text-decoration:none}
+.lp-brand-mark{
+  width:30px;height:30px;background:#09101f;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+}
+.lp-brand-mark svg{width:16px;height:16px}
+.lp-brand-name{font-family:'Fraunces',serif;font-size:.95rem;font-weight:500;color:#09101f}
+.lp-bar-tag{font-size:.72rem;color:#9ba8c4;font-weight:500;letter-spacing:.02em}
+
+/* ── HERO ── */
+.lp-hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:100px 32px 80px;position:relative;overflow:hidden;
+}
+.lp-hero-inner{max-width:1180px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 420px;gap:80px;align-items:center}
+
+/* background grid */
+.lp-grid-bg{
+  position:absolute;inset:0;
+  background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:48px 48px;opacity:.4;
+}
+.lp-grid-fade{position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 20% 50%,rgba(255,255,255,1) 40%,transparent 100%)}
+
+/* left copy */
+.lp-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  background:#eef2ff;border:1px solid #c7d4f8;color:#1B4FD8;
+  font-size:.73rem;font-weight:600;padding:4px 12px;border-radius:99px;margin-bottom:24px;
+  letter-spacing:.03em;
+}
+.lp-eyebrow-dot{width:6px;height:6px;border-radius:50%;background:#1B4FD8;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.lp-h1{
+  font-family:'Fraunces',serif;font-size:3.8rem;line-height:1.08;
+  color:#09101f;letter-spacing:-.03em;margin-bottom:18px;
+}
+.lp-h1 em{font-style:italic;color:#1B4FD8}
+.lp-desc{font-size:1rem;color:#6b7a99;line-height:1.75;max-width:460px;margin-bottom:32px}
+.lp-stats{display:flex;gap:28px;margin-bottom:32px;padding-bottom:28px;border-bottom:1px solid #e3e8f2}
+.lp-stat-n{font-family:'Fraunces',serif;font-size:2rem;font-weight:500;color:#09101f;line-height:1}
+.lp-stat-l{font-size:.73rem;color:#9ba8c4;font-weight:500;margin-top:3px}
+.lp-trust{display:flex;flex-wrap:wrap;gap:8px}
+.lp-trust-tag{
+  display:flex;align-items:center;gap:5px;
+  font-size:.75rem;color:#6b7a99;font-weight:500;
+}
+.lp-trust-tag i{color:#0c6b3f;font-size:.65rem}
+
+/* login card */
+.lp-card{
+  background:#fff;border:1px solid #e3e8f2;border-radius:20px;
+  box-shadow:0 24px 80px rgba(9,16,31,.1),0 4px 16px rgba(9,16,31,.06);
+  position:relative;overflow:hidden;
+}
+.lp-card-accent{
+  position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#1B4FD8,#60a5fa,#a5b4fc);
+}
+.lp-card-body{padding:28px}
+.lp-card-title{font-family:'Fraunces',serif;font-size:1.25rem;font-weight:500;color:#09101f;margin-bottom:4px}
+.lp-card-sub{font-size:.82rem;color:#9ba8c4;margin-bottom:22px}
+.lp-input-label{display:block;font-size:.72rem;font-weight:600;color:#3a4a6b;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.lp-input-wrap{position:relative}
+.lp-input-wrap i{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#c8d0e4;font-size:.8rem;pointer-events:none}
+.lp-input-wrap input{padding-left:34px}
+.lp-btn{
+  width:100%;margin-top:16px;padding:13px;border-radius:10px;
+  background:#09101f;color:#fff;border:none;
+  font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all .2s;
+}
+.lp-btn:hover{background:#1d2b45;transform:translateY(-1px);box-shadow:0 8px 28px rgba(9,16,31,.22)}
+.lp-secure{display:flex;align-items:center;justify-content:center;gap:5px;font-size:.71rem;color:#c8d0e4;margin-top:12px}
+.lp-card-foot{
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;
+  border-top:1px solid #f0f2f8;background:#f0f2f8;
+}
+.lp-foot-cell{background:#fff;padding:14px;text-align:center}
+.lp-foot-n{font-family:'Fraunces',serif;font-size:.9rem;font-weight:500;color:#09101f}
+.lp-foot-l{font-size:.65rem;color:#c8d0e4;margin-top:2px}
+.lp-error{
+  background:#fef2f2;border:1px solid #fecaca;border-radius:8px;
+  padding:10px 13px;margin-bottom:16px;display:flex;align-items:center;gap:8px;
+  color:#b91c1c;font-size:.82rem;
+}
+
+/* ── FEATURES SECTION ── */
+.lp-section{padding:96px 32px;max-width:1180px;margin:0 auto}
+.lp-section-head{text-align:center;margin-bottom:64px}
+.lp-section-eyebrow{font-size:.72rem;font-weight:600;color:#1B4FD8;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+.lp-section-title{font-family:'Fraunces',serif;font-size:2.6rem;color:#09101f;letter-spacing:-.02em;line-height:1.15}
+.lp-section-sub{font-size:.95rem;color:#9ba8c4;margin-top:12px;line-height:1.7;max-width:560px;margin-left:auto;margin-right:auto}
+
+.lp-features{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.lp-feat{
+  background:#fff;border:1px solid #e3e8f2;border-radius:16px;
+  padding:24px;transition:all .2s;
+}
+.lp-feat:hover{box-shadow:0 8px 32px rgba(9,16,31,.08);transform:translateY(-2px);border-color:#d0d7eb}
+.lp-feat-icon{
+  width:44px;height:44px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;margin-bottom:16px;
+  font-size:1.1rem;
+}
+.lp-feat-title{font-family:'Fraunces',serif;font-size:1.05rem;color:#09101f;margin-bottom:6px;font-weight:500}
+.lp-feat-desc{font-size:.82rem;color:#9ba8c4;line-height:1.65}
+
+/* ── PROBLEM SECTION ── */
+.lp-problem{
+  background:#09101f;color:#fff;padding:96px 32px;
+}
+.lp-problem-inner{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.lp-problem-tag{font-size:.72rem;font-weight:600;color:#4ade80;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px}
+.lp-problem-title{font-family:'Fraunces',serif;font-size:2.4rem;line-height:1.15;letter-spacing:-.02em;margin-bottom:20px}
+.lp-problem-desc{font-size:.92rem;color:rgba(255,255,255,.55);line-height:1.75}
+.lp-problem-stats{display:flex;flex-direction:column;gap:20px}
+.lp-pstat{
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;padding:20px 24px;display:flex;align-items:center;gap:20px;
+}
+.lp-pstat-n{font-family:'Fraunces',serif;font-size:2rem;font-weight:500;color:#fff;flex-shrink:0;width:80px}
+.lp-pstat-l{font-size:.85rem;color:rgba(255,255,255,.5);line-height:1.5}
+
+/* ── HOW IT WORKS ── */
+.lp-how{padding:96px 32px;max-width:1180px;margin:0 auto}
+.lp-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:48px}
+.lp-step{text-align:center;padding:24px 16px}
+.lp-step-num{
+  width:40px;height:40px;border-radius:50%;
+  background:#eef2ff;border:1px solid #c7d4f8;
+  color:#1B4FD8;font-family:'Fraunces',serif;font-size:1rem;font-weight:500;
+  display:flex;align-items:center;justify-content:center;margin:0 auto 16px;
+}
+.lp-step-title{font-family:'Fraunces',serif;font-size:1rem;color:#09101f;margin-bottom:6px;font-weight:500}
+.lp-step-desc{font-size:.8rem;color:#9ba8c4;line-height:1.6}
+.lp-step-connector{position:relative}
+.lp-step-connector::before{
+  content:'';position:absolute;top:20px;left:50%;right:-50%;
+  height:1px;background:linear-gradient(90deg,#c7d4f8,transparent);
+}
+
+/* ── CTA SECTION ── */
+.lp-cta{
+  background:linear-gradient(135deg,#09101f 0%,#1d2b45 100%);
+  padding:96px 32px;text-align:center;color:#fff;
+}
+.lp-cta-title{font-family:'Fraunces',serif;font-size:2.8rem;letter-spacing:-.02em;margin-bottom:16px}
+.lp-cta-sub{font-size:.95rem;color:rgba(255,255,255,.5);margin-bottom:32px;line-height:1.7}
+.lp-cta-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:#fff;color:#09101f;border-radius:10px;padding:14px 28px;
+  font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;text-decoration:none;
+  transition:all .2s;box-shadow:0 0 0 0 rgba(255,255,255,.3);
+}
+.lp-cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.3)}
+
+/* ── FOOTER ── */
+.lp-footer{
+  padding:32px;border-top:1px solid #f0f2f8;
+  display:flex;align-items:center;justify-content:space-between;
+  max-width:1180px;margin:0 auto;
+}
+.lp-footer-copy{font-size:.75rem;color:#c8d0e4}
+.lp-footer-tags{display:flex;gap:16px}
+.lp-footer-tag{font-size:.72rem;color:#c8d0e4;font-weight:500}
+
+@media(max-width:900px){
+  .lp-hero-inner,.lp-problem-inner{grid-template-columns:1fr}
+  .lp-h1{font-size:2.4rem}
+  .lp-features{grid-template-columns:1fr}
+  .lp-steps{grid-template-columns:1fr 1fr}
+  .lp-section{padding:64px 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="lp-bar">
+  <div class="lp-bar-inner">
+    <div class="lp-brand">
+      <div class="lp-brand-mark">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M8 1.5C8 1.5 3 5 3 9.5C3 12.538 5.239 15 8 15C10.761 15 13 12.538 13 9.5C13 5 8 1.5 8 1.5Z" fill="white" opacity=".9"/><path d="M5.5 9L7 11L10.5 7" stroke="#09101f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="lp-brand-name">OneHealthID</span>
+    </div>
+    <span class="lp-bar-tag">DPDP Compliant &nbsp;·&nbsp; Ministry of Health Initiative</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="lp-hero">
+  <div class="lp-grid-bg"></div>
+  <div class="lp-grid-fade"></div>
+  <div class="lp-hero-inner" style="position:relative;z-index:1">
+
+    <div>
+      <div class="lp-eyebrow"><span class="lp-eyebrow-dot"></span>India's Sovereign Health Record System</div>
+      <h1 class="lp-h1">One record.<br/>Every hospital.<br/><em>Your entire story.</em></h1>
+      <p class="lp-desc">Indians carry physical files their entire lives — lost between hospitals, delayed diagnoses, repeated tests. OneHealthID ends that. One ID. Every doctor. Everywhere.</p>
+      <div class="lp-stats">
+        <div><div class="lp-stat-n">2,400+</div><div class="lp-stat-l">Hospitals connected</div></div>
+        <div><div class="lp-stat-n">14M+</div><div class="lp-stat-l">Records unified</div></div>
+        <div><div class="lp-stat-n">0</div><div class="lp-stat-l">Lost prescriptions</div></div>
+      </div>
+      <div class="lp-trust">
+        <% ['Aadhaar-linked identity','DPDP Act compliant','256-bit encryption','Real-time lab sync','Lifetime timeline'].forEach(function(t){ %>
+        <span class="lp-trust-tag"><i class="fa-solid fa-check"></i><%= t %></span>
+        <% }) %>
+      </div>
+    </div>
+
+    <div class="lp-card">
+      <div class="lp-card-accent"></div>
+      <div class="lp-card-body">
+        <div class="lp-card-title">Access your Health Record</div>
+        <div class="lp-card-sub">Sign in with your National Health ID number</div>
+        <% if(error){ %><div class="lp-error"><i class="fa-solid fa-circle-exclamation"></i><%= error %></div><% } %>
+        <form method="POST" action="/login">
+          <label class="lp-input-label">Health ID Number</label>
+          <div class="lp-input-wrap">
+            <i class="fa-regular fa-id-card"></i>
+            <input type="number" name="user_id" placeholder="Enter ID — try 1, 2, or 3" required class="ohid-input" autofocus/>
+          </div>
+          <button type="submit" class="lp-btn"><i class="fa-solid fa-arrow-right-to-bracket"></i>Access My Health Records</button>
+        </form>
+        <div class="lp-secure"><i class="fa-solid fa-lock"></i>Encrypted · Never shared without consent</div>
+      </div>
+      <div class="lp-card-foot">
+        <div class="lp-foot-cell"><div class="lp-foot-n">256-bit</div><div class="lp-foot-l">Encrypted</div></div>
+        <div class="lp-foot-cell"><div class="lp-foot-n">DPDP</div><div class="lp-foot-l">Compliant</div></div>
+        <div class="lp-foot-cell"><div class="lp-foot-n">24/7</div><div class="lp-foot-l">Access</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM SECTION -->
+<section class="lp-problem">
+  <div class="lp-problem-inner">
+    <div class="reveal">
+      <div class="lp-problem-tag">The Problem We're Solving</div>
+      <h2 class="lp-problem-title">Healthcare fragmentation kills people every day</h2>
+      <p class="lp-problem-desc">When a patient arrives at a new hospital, they carry a memory — not a record. Critical allergies are missed. Tests are repeated. Diagnoses are delayed. OneHealthID makes this permanently impossible.</p>
+    </div>
+    <div class="lp-problem-stats reveal reveal-delay-2">
+      <div class="lp-pstat"><div class="lp-pstat-n">68%</div><div class="lp-pstat-l">of Indian patients have lost a critical medical document at least once</div></div>
+      <div class="lp-pstat"><div class="lp-pstat-n">4.2x</div><div class="lp-pstat-l">diagnostic delay caused by missing prior records in emergency cases</div></div>
+      <div class="lp-pstat"><div class="lp-pstat-n">₹840B</div><div class="lp-pstat-l">wasted annually on duplicate lab tests that already existed</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section style="padding:96px 32px;background:#f6f7fb">
+  <div style="max-width:1180px;margin:0 auto">
+    <div class="lp-section-head reveal">
+      <div class="lp-section-eyebrow">What OneHealthID does</div>
+      <h2 class="lp-section-title">Everything in one sovereign record</h2>
+      <p class="lp-section-sub">Think DigiLocker — but built entirely for your body. Every medical interaction, unified.</p>
+    </div>
+    <div class="lp-features">
+      <% [
+        {icon:'fa-id-card',bg:'#eef2ff',ic:'#1B4FD8',title:'Universal Health ID',desc:'One Aadhaar-linked ID accepted at every registered hospital, clinic, lab, and pharmacy in India. No paper. No loss.'},
+        {icon:'fa-timeline',bg:'#edfaf4',ic:'#0c6b3f',title:'Lifetime Medical Timeline',desc:'Every clinic visit, lab result, prescription, and surgery — in one chronological record. Yours forever.'},
+        {icon:'fa-flask',bg:'#fff7ed',ic:'#92600a',title:'Real-Time Lab Sync',desc:'Lab reports auto-sync to your record the moment they are released. No collecting, no scanning.'},
+        {icon:'fa-folder-open',bg:'#fdf4ff',ic:'#7c3aed',title:'Document Vault',desc:'Upload prescriptions, discharge summaries, and scans. Accessible to any doctor in seconds.'},
+        {icon:'fa-shield-halved',bg:'#fef2f2',ic:'#b91c1c',title:'Granular Privacy Controls',desc:'Grant access per-doctor with expiry dates. Revoke instantly. You own your data — not hospitals.'},
+        {icon:'fa-chart-line',bg:'#f0fdf4',ic:'#166534',title:'Health Analytics',desc:'Track wearable trends, medication history, and lab value patterns over time. Understand your health, not just your symptoms.'},
+      ].forEach(function(f){ %>
+      <div class="lp-feat reveal">
+        <div class="lp-feat-icon" style="background:<%= f.bg %>"><i class="fa-solid <%= f.icon %>" style="color:<%= f.ic %>"></i></div>
+        <div class="lp-feat-title"><%= f.title %></div>
+        <div class="lp-feat-desc"><%= f.desc %></div>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="lp-how">
+  <div class="lp-section-head reveal">
+    <div class="lp-section-eyebrow">Simple by design</div>
+    <h2 class="lp-section-title">How it works</h2>
+  </div>
+  <div class="lp-steps">
+    <% [
+      {n:'1',t:'Register',d:'Get your OneHealthID linked to your Aadhaar. One time. Permanent.'},
+      {n:'2',t:'Connect',d:'Your existing records from linked hospitals are automatically imported.'},
+      {n:'3',t:'Share',d:'Show your ID at any clinic. Grant and revoke access in seconds.'},
+      {n:'4',t:'Understand',d:'View your complete health picture — timeline, analytics, documents — in one place.'},
+    ].forEach(function(s,i){ %>
+    <div class="lp-step reveal reveal-delay-<%= i+1 %>">
+      <div class="lp-step-num"><%= s.n %></div>
+      <div class="lp-step-title"><%= s.t %></div>
+      <div class="lp-step-desc"><%= s.d %></div>
+    </div>
+    <% }) %>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="lp-cta">
+  <div class="reveal">
+    <h2 class="lp-cta-title">Your entire health story.<br/>One place. One ID.</h2>
+    <p class="lp-cta-sub">Join 14 million Indians who have taken ownership of their health data.</p>
+    <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false" class="lp-cta-btn">
+      <i class="fa-solid fa-arrow-up"></i>Access Your Record
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="border-top:1px solid #f0f2f8;padding:28px 32px">
+  <div class="lp-footer">
+    <div class="lp-footer-copy">© 2024 OneHealthID · Ministry of Health Initiative · DPDP Compliant</div>
+    <div class="lp-footer-tags">
+      <span class="lp-footer-tag">Privacy Policy</span>
+      <span class="lp-footer-tag">Terms of Service</span>
+      <span class="lp-footer-tag">Help</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Scroll reveal init
+const ro=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target)}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+</script>
+</body></html>

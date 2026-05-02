@@ -1,0 +1,351 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Privacy Controls — OneHealthID</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,500&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#09101f;--ink2:#1d2b45;--ink3:#3a4a6b;
+  --mid:#6b7a99;--muted:#9ba8c4;--faint:#c8d0e4;
+  --border:#e3e8f2;--border2:#d0d7eb;
+  --bg:#f6f7fb;--surface:#ffffff;
+  --blue:#1B4FD8;--blue2:#1541b8;--blue-bg:#eef2ff;--blue-border:#c7d4f8;
+  --green:#0c6b3f;--green-bg:#edfaf4;--green-b:#a7e8c8;
+  --red:#b91c1c;--red-bg:#fef2f2;--red-b:#fecaca;
+  --amber:#92600a;--amber-bg:#fffbeb;--amber-b:#fde68a;
+  --r:12px;--r-sm:8px;--r-lg:20px;
+  --sh:0 1px 4px rgba(9,16,31,.06),0 1px 2px rgba(9,16,31,.04);
+  --sh-md:0 4px 20px rgba(9,16,31,.08),0 1px 4px rgba(9,16,31,.05);
+  --sh-lg:0 16px 60px rgba(9,16,31,.12),0 4px 16px rgba(9,16,31,.06);
+}
+html{font-size:15px;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;min-height:100vh}
+.serif{font-family:'Fraunces',serif}
+.mono{font-family:'DM Mono',monospace}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px}
+
+/* NAV */
+.ohid-nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:rgba(246,247,251,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);height:56px;
+  display:flex;align-items:center;
+}
+.ohid-nav-inner{
+  max-width:1200px;margin:0 auto;padding:0 28px;width:100%;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.ohid-logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.ohid-logo-mark{
+  width:30px;height:30px;border-radius:8px;background:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+}
+.ohid-logo-mark svg{width:16px;height:16px}
+.ohid-logo-name{font-family:'Fraunces',serif;font-size:.95rem;font-weight:500;color:var(--ink);letter-spacing:-.01em}
+.ohid-nav-links{display:flex;align-items:center;gap:1px}
+.ohid-nav-link{
+  padding:6px 13px;border-radius:7px;font-size:.82rem;font-weight:500;
+  color:var(--mid);text-decoration:none;transition:all .15s;display:flex;align-items:center;gap:6px;
+}
+.ohid-nav-link:hover{color:var(--ink);background:rgba(9,16,31,.05)}
+.ohid-nav-link.active{color:var(--blue);background:var(--blue-bg)}
+.ohid-nav-right{display:flex;align-items:center;gap:8px}
+.ohid-avatar{
+  width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;
+  font-size:.75rem;font-weight:600;display:flex;align-items:center;justify-content:center;
+  font-family:'DM Sans',sans-serif;
+}
+.ohid-signout{
+  font-size:.78rem;font-weight:500;color:var(--mid);text-decoration:none;
+  padding:5px 11px;border-radius:7px;border:1px solid var(--border2);
+  background:var(--surface);transition:all .15s;
+}
+.ohid-signout:hover{color:var(--red);border-color:var(--red-b);background:var(--red-bg)}
+
+/* PAGE SHELL */
+.ohid-page{padding-top:56px}
+.ohid-wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh)}
+.card-lift{transition:transform .2s,box-shadow .2s,border-color .2s}
+.card-lift:hover{transform:translateY(-2px);box-shadow:var(--sh-md);border-color:var(--border2)}
+
+/* BADGES */
+.badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:2px 8px;border-radius:99px;font-size:.68rem;font-weight:600;
+  border:1px solid;letter-spacing:.02em;font-family:'DM Sans',sans-serif;
+}
+.bg{background:var(--green-bg);color:var(--green);border-color:var(--green-b)}
+.bb{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-border)}
+.br{background:var(--red-bg);color:var(--red);border-color:var(--red-b)}
+.by{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-b)}
+.bgr{background:var(--bg);color:var(--mid);border-color:var(--border)}
+
+/* INPUTS */
+.ohid-input{
+  width:100%;padding:10px 14px;border-radius:var(--r-sm);
+  border:1px solid var(--border2);background:var(--surface);
+  font-family:'DM Sans',sans-serif;font-size:.875rem;color:var(--ink);
+  transition:border-color .15s,box-shadow .15s;outline:none;
+}
+.ohid-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(27,79,216,.1)}
+.ohid-input::placeholder{color:var(--muted)}
+.ohid-input option{background:var(--surface);color:var(--ink)}
+
+/* BUTTONS */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:9px 18px;border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;
+  font-weight:500;font-size:.875rem;cursor:pointer;border:1px solid;text-decoration:none;
+  transition:all .15s;line-height:1;
+}
+.btn-p{background:var(--ink);color:#fff;border-color:var(--ink2);box-shadow:0 1px 3px rgba(9,16,31,.2)}
+.btn-p:hover{background:var(--ink2);transform:translateY(-1px);box-shadow:0 4px 16px rgba(9,16,31,.25)}
+.btn-g{background:transparent;color:var(--mid);border-color:var(--border2)}
+.btn-g:hover{background:var(--bg);color:var(--ink)}
+.btn-d{background:var(--red-bg);color:var(--red);border-color:var(--red-b)}
+.btn-d:hover{background:#fee2e2}
+
+/* SECTION LABEL */
+.sec-lbl{font-size:.68rem;font-weight:600;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+
+/* DIVIDER */
+.ohid-divider{height:1px;background:var(--border);margin:20px 0}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.08s}
+.reveal-delay-2{transition-delay:.16s}
+.reveal-delay-3{transition-delay:.24s}
+.reveal-delay-4{transition-delay:.32s}
+.reveal-delay-5{transition-delay:.40s}
+
+/* MODAL */
+.modal-overlay{
+  position:fixed;inset:0;z-index:300;background:rgba(9,16,31,.45);backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;padding:16px;
+}
+.modal-box{
+  background:var(--surface);border-radius:var(--r-lg);border:1px solid var(--border);
+  box-shadow:var(--sh-lg);width:100%;max-width:460px;padding:28px;
+}
+
+/* TOAST */
+#ohid-toasts{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px}
+.ohid-toast{
+  background:var(--ink);color:#fff;border-radius:var(--r-sm);
+  padding:11px 16px;font-size:.85rem;display:flex;align-items:center;gap:9px;
+  box-shadow:var(--sh-lg);animation:tIn .3s ease;min-width:220px;
+}
+@keyframes tIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* PAGE HEADER */
+.page-hdr{background:var(--surface);border-bottom:1px solid var(--border);padding:24px 0;margin-top:56px}
+.page-hdr-inner{max-width:1200px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.page-hdr-title{font-family:'Fraunces',serif;font-size:1.8rem;font-weight:500;color:var(--ink);letter-spacing:-.02em}
+.page-hdr-sub{font-size:.82rem;color:var(--mid);margin-top:3px}
+
+/* HEALTH ID CHIP */
+.hid-chip{
+  background:var(--ink);color:#fff;border-radius:var(--r-sm);
+  padding:10px 16px;display:inline-flex;align-items:center;gap:12px;
+}
+.hid-chip-lbl{font-size:.6rem;font-weight:600;opacity:.45;letter-spacing:.12em;text-transform:uppercase}
+.hid-chip-num{font-family:'DM Mono',monospace;font-size:1rem;font-weight:500;letter-spacing:.06em;margin-top:2px}
+.hid-chip-meta{font-size:.68rem;opacity:.4;margin-top:2px}
+
+/* TABLE */
+.ohid-tbl{width:100%;border-collapse:separate;border-spacing:0}
+.ohid-tbl th{background:var(--bg);color:var(--muted);font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:11px 16px;border-bottom:1px solid var(--border);text-align:left}
+.ohid-tbl td{padding:12px 16px;border-bottom:1px solid var(--border);font-size:.875rem;color:var(--mid);vertical-align:middle}
+.ohid-tbl tbody tr:last-child td{border-bottom:none}
+.ohid-tbl tbody tr:hover td{background:var(--bg)}
+
+/* PROGRESS */
+.prog{height:4px;background:var(--border);border-radius:99px;overflow:hidden}
+.prog-fill{height:100%;border-radius:99px;transition:width 1s ease}
+.prog-blue{background:var(--blue)}
+.prog-green{background:var(--green)}
+
+/* EMPTY */
+.ohid-empty{padding:40px;text-align:center;color:var(--muted)}
+.ohid-empty i{font-size:1.8rem;display:block;margin-bottom:10px;color:var(--faint)}
+</style>
+</head>
+<style>
+.ohid-page{background:var(--bg)}
+.priv-body{max-width:1200px;margin:0 auto;padding:24px 28px;display:flex;flex-direction:column;gap:18px}
+.priv-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.ps{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px}
+.ps-icon{font-size:.875rem;margin-bottom:8px}
+.ps-val{font-family:'Fraunces',serif;font-size:1.5rem;color:var(--ink);font-weight:500;line-height:1;margin-bottom:3px}
+.ps-lbl{font-size:.7rem;font-weight:600;color:var(--muted);letter-spacing:.07em;text-transform:uppercase}
+.priv-tips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.pt{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px}
+.pt-icon{font-size:.875rem;margin-bottom:10px}
+.pt-title{font-size:.875rem;font-weight:600;color:var(--ink);margin-bottom:4px}
+.pt-desc{font-size:.78rem;color:var(--mid);line-height:1.6}
+</style>
+<body>
+
+<nav class="ohid-nav">
+  <div class="ohid-nav-inner">
+    <a href="/dashboard" class="ohid-logo">
+      <div class="ohid-logo-mark">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 1.5C8 1.5 3 5 3 9.5C3 12.538 5.239 15 8 15C10.761 15 13 12.538 13 9.5C13 5 8 1.5 8 1.5Z" fill="white" opacity=".9"/>
+          <path d="M5.5 9L7 11L10.5 7" stroke="#09101f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="ohid-logo-name">OneHealthID</span>
+    </a>
+    <div class="ohid-nav-links">
+      <a href="/dashboard" class="ohid-nav-link ">Overview</a>
+      <a href="/history"   class="ohid-nav-link ">Records</a>
+      <a href="/analytics" class="ohid-nav-link ">Analytics</a>
+      <a href="/uploads"   class="ohid-nav-link ">Vault</a>
+      <a href="/privacy"   class="ohid-nav-link active">Privacy</a>
+    </div>
+    <div class="ohid-nav-right">
+      <div class="ohid-avatar"><%= user.name.charAt(0).toUpperCase() %></div>
+      <a href="/logout" class="ohid-signout">Sign out</a>
+    </div>
+  </div>
+</nav>
+
+<div id="ohid-toasts"></div>
+<script>
+function ohidToast(m,t){
+  const w=document.getElementById('ohid-toasts');
+  const d=document.createElement('div');
+  d.className='ohid-toast';
+  d.innerHTML='<i class="fa-solid '+(t==='e'?'fa-circle-exclamation':'fa-circle-check')+'" style="color:'+(t==='e'?'#f87171':'#4ade80')+'"></i>'+m;
+  w.appendChild(d);
+  setTimeout(()=>{d.style.opacity='0';d.style.transform='translateY(8px)';d.style.transition='all .3s';setTimeout(()=>d.remove(),300)},3500);
+}
+// Scroll reveal
+const _ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');_ro.unobserve(e.target)}})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>_ro.observe(el));
+</script>
+<div class="ohid-page">
+  <div class="page-hdr">
+    <div class="page-hdr-inner">
+      <div>
+        <div class="page-hdr-title">Privacy Controls</div>
+        <div class="page-hdr-sub">Sovereign control over your health data. DPDP Act compliant. Revoke access instantly.</div>
+      </div>
+      <button onclick="document.getElementById('grantModal').style.display='flex'" class="btn btn-p"><i class="fa-solid fa-key"></i>Grant Access</button>
+    </div>
+  </div>
+
+  <div class="priv-body">
+    <% const msg=(flash&&(flash.success||flash.error)); %>
+    <% if(msg&&msg[0]){ %>
+    <div style="background:<%= flash.error?'#fef2f2':'#edfaf4' %>;border:1px solid <%= flash.error?'#fecaca':'#a7e8c8' %>;border-radius:var(--r-sm);padding:11px 14px;display:flex;align-items:center;gap:8px;color:<%= flash.error?'#b91c1c':'#0c6b3f' %>;font-size:.85rem">
+      <i class="fa-solid fa-<%= flash.error?'triangle-exclamation':'circle-check' %>"></i><%= (flash.success||flash.error)[0] %>
+    </div>
+    <% } %>
+
+    <div class="priv-stats">
+      <% const act=accessRecords.filter(r=>new Date(r.expiry_date)>new Date());
+         const exp=accessRecords.filter(r=>new Date(r.expiry_date)<=new Date()); %>
+      <div class="ps"><div class="ps-icon"><i class="fa-solid fa-circle-check" style="color:var(--green)"></i></div><div class="ps-val"><%= act.length %></div><div class="ps-lbl">Active Grants</div></div>
+      <div class="ps"><div class="ps-icon"><i class="fa-solid fa-circle-xmark" style="color:var(--red)"></i></div><div class="ps-val"><%= exp.length %></div><div class="ps-lbl">Expired</div></div>
+      <div class="ps"><div class="ps-icon"><i class="fa-solid fa-lock" style="color:#7c3aed"></i></div><div class="ps-val">256</div><div class="ps-lbl">Bit Encrypted</div></div>
+      <div class="ps"><div class="ps-icon"><i class="fa-solid fa-shield-halved" style="color:var(--blue)"></i></div><div class="ps-val">DPDP</div><div class="ps-lbl">Compliant</div></div>
+    </div>
+
+    <!-- Info banner -->
+    <div style="background:var(--blue-bg);border:1px solid var(--blue-border);border-radius:var(--r-sm);padding:13px 16px;display:flex;align-items:center;gap:12px;font-size:.82rem;color:var(--blue)" class="reveal reveal-delay-1">
+      <i class="fa-solid fa-shield-halved" style="flex-shrink:0"></i>
+      All data sharing is encrypted at rest and in transit. Grants take effect and revoke immediately across all connected hospital systems.
+    </div>
+
+    <!-- Access table -->
+    <div class="card" style="overflow:hidden" class="reveal reveal-delay-2">
+      <div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:.875rem;font-weight:600;color:var(--ink)">Data Access Grants</span>
+        <span class="badge bgr"><%= accessRecords.length %> total</span>
+      </div>
+      <% if(accessRecords.length){ %>
+      <div style="overflow-x:auto">
+        <table class="ohid-tbl">
+          <thead><tr><th>Shared With</th><th>Permission</th><th>Expiry</th><th>Status</th><th style="text-align:right">Action</th></tr></thead>
+          <tbody>
+            <% accessRecords.forEach(function(r){ const expired=new Date(r.expiry_date)<=new Date(); const pl=(r.permission_level||'read').toLowerCase(); %>
+            <tr style="<%= expired?'opacity:.5':'' %>">
+              <td>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <div style="width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;font-size:.75rem;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0"><%= (r.shared_with||'?').charAt(0).toUpperCase() %></div>
+                  <span style="color:var(--ink);font-weight:600"><%= r.shared_with %></span>
+                </div>
+              </td>
+              <td><span class="badge <%= pl==='admin'?'br':pl==='write'?'bb':'bg' %>"><%= r.permission_level||'read' %></span></td>
+              <td class="mono" style="font-size:.75rem"><%= new Date(r.expiry_date).toLocaleDateString('en-IN',{year:'numeric',month:'short',day:'numeric'}) %></td>
+              <td><span class="badge <%= expired?'br':'bg' %>"><%= expired?'Expired':'Active' %></span></td>
+              <td style="text-align:right">
+                <form method="POST" action="/privacy/revoke" onsubmit="return confirm('Revoke access for <%= r.shared_with %>?')" style="display:inline">
+                  <input type="hidden" name="access_id" value="<%= r.access_id %>"/>
+                  <button type="submit" class="btn btn-d" style="padding:6px 12px;font-size:.75rem"><i class="fa-solid fa-ban"></i>Revoke</button>
+                </form>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+      <% } else { %><div class="ohid-empty"><i class="fa-solid fa-shield-halved"></i>No access grants. Your data is completely private.</div><% } %>
+    </div>
+
+    <!-- Tips -->
+    <div class="priv-tips reveal reveal-delay-3">
+      <% [
+        {i:'fa-user-doctor',c:var(--blue),t:'Share with Doctors',d:'Grant read-only access to your treating physician. A 7–30 day expiry is sufficient for a consultation.'},
+        {i:'fa-building-columns',c:var(--green),t:'Hospital Access',d:'For admissions, grant write access so the care team can add records. Revoke on discharge.'},
+        {i:'fa-file-contract',c:'#7c3aed',t:'Insurance Claims',d:'Share read-only access for the claim period only. Expiry dates auto-limit access scope without manual action.'},
+      ].forEach(function(tip){ %>
+      <div class="pt">
+        <div class="pt-icon"><i class="fa-solid <%= tip.i %>" style="color:<%= tip.c %>"></i></div>
+        <div class="pt-title"><%= tip.t %></div>
+        <div class="pt-desc"><%= tip.d %></div>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</div>
+
+<!-- Grant Modal -->
+<div id="grantModal" class="modal-overlay" style="display:none" onclick="if(event.target===this)this.style.display='none'">
+  <div class="modal-box">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <div style="font-family:'Fraunces',serif;font-size:1.15rem;color:var(--ink)">Grant Data Access</div>
+      <button onclick="document.getElementById('grantModal').style.display='none'" style="background:none;border:none;color:var(--muted);cursor:pointer"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form method="POST" action="/privacy/grant" style="display:flex;flex-direction:column;gap:14px">
+      <div>
+        <label style="display:block;font-size:.7rem;font-weight:600;color:var(--ink3);letter-spacing:.05em;text-transform:uppercase;margin-bottom:5px">Share With</label>
+        <input type="text" name="shared_with" placeholder="e.g. Dr. Priya Nair / Apollo Hospitals" required class="ohid-input"/>
+      </div>
+      <div>
+        <label style="display:block;font-size:.7rem;font-weight:600;color:var(--ink3);letter-spacing:.05em;text-transform:uppercase;margin-bottom:5px">Permission Level</label>
+        <select name="permission_level" class="ohid-input"><option value="read">Read Only</option><option value="write">Read + Write</option><option value="admin">Full Access</option></select>
+      </div>
+      <div>
+        <label style="display:block;font-size:.7rem;font-weight:600;color:var(--ink3);letter-spacing:.05em;text-transform:uppercase;margin-bottom:5px">Expiry Date</label>
+        <input type="date" name="expiry_date" required class="ohid-input" min="<%= new Date().toISOString().split('T')[0] %>"/>
+        <p style="font-size:.72rem;color:var(--muted);margin-top:4px">Access auto-expires — no manual revocation needed.</p>
+      </div>
+      <button type="submit" class="btn btn-p" style="width:100%;padding:12px"><i class="fa-solid fa-key"></i>Grant Access</button>
+    </form>
+  </div>
+</div>
+</body></html>

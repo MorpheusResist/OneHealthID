@@ -1,0 +1,401 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Overview — OneHealthID</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,500&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#09101f;--ink2:#1d2b45;--ink3:#3a4a6b;
+  --mid:#6b7a99;--muted:#9ba8c4;--faint:#c8d0e4;
+  --border:#e3e8f2;--border2:#d0d7eb;
+  --bg:#f6f7fb;--surface:#ffffff;
+  --blue:#1B4FD8;--blue2:#1541b8;--blue-bg:#eef2ff;--blue-border:#c7d4f8;
+  --green:#0c6b3f;--green-bg:#edfaf4;--green-b:#a7e8c8;
+  --red:#b91c1c;--red-bg:#fef2f2;--red-b:#fecaca;
+  --amber:#92600a;--amber-bg:#fffbeb;--amber-b:#fde68a;
+  --r:12px;--r-sm:8px;--r-lg:20px;
+  --sh:0 1px 4px rgba(9,16,31,.06),0 1px 2px rgba(9,16,31,.04);
+  --sh-md:0 4px 20px rgba(9,16,31,.08),0 1px 4px rgba(9,16,31,.05);
+  --sh-lg:0 16px 60px rgba(9,16,31,.12),0 4px 16px rgba(9,16,31,.06);
+}
+html{font-size:15px;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;min-height:100vh}
+.serif{font-family:'Fraunces',serif}
+.mono{font-family:'DM Mono',monospace}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px}
+
+/* NAV */
+.ohid-nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:rgba(246,247,251,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);height:56px;
+  display:flex;align-items:center;
+}
+.ohid-nav-inner{
+  max-width:1200px;margin:0 auto;padding:0 28px;width:100%;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.ohid-logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.ohid-logo-mark{
+  width:30px;height:30px;border-radius:8px;background:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+}
+.ohid-logo-mark svg{width:16px;height:16px}
+.ohid-logo-name{font-family:'Fraunces',serif;font-size:.95rem;font-weight:500;color:var(--ink);letter-spacing:-.01em}
+.ohid-nav-links{display:flex;align-items:center;gap:1px}
+.ohid-nav-link{
+  padding:6px 13px;border-radius:7px;font-size:.82rem;font-weight:500;
+  color:var(--mid);text-decoration:none;transition:all .15s;display:flex;align-items:center;gap:6px;
+}
+.ohid-nav-link:hover{color:var(--ink);background:rgba(9,16,31,.05)}
+.ohid-nav-link.active{color:var(--blue);background:var(--blue-bg)}
+.ohid-nav-right{display:flex;align-items:center;gap:8px}
+.ohid-avatar{
+  width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;
+  font-size:.75rem;font-weight:600;display:flex;align-items:center;justify-content:center;
+  font-family:'DM Sans',sans-serif;
+}
+.ohid-signout{
+  font-size:.78rem;font-weight:500;color:var(--mid);text-decoration:none;
+  padding:5px 11px;border-radius:7px;border:1px solid var(--border2);
+  background:var(--surface);transition:all .15s;
+}
+.ohid-signout:hover{color:var(--red);border-color:var(--red-b);background:var(--red-bg)}
+
+/* PAGE SHELL */
+.ohid-page{padding-top:56px}
+.ohid-wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh)}
+.card-lift{transition:transform .2s,box-shadow .2s,border-color .2s}
+.card-lift:hover{transform:translateY(-2px);box-shadow:var(--sh-md);border-color:var(--border2)}
+
+/* BADGES */
+.badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:2px 8px;border-radius:99px;font-size:.68rem;font-weight:600;
+  border:1px solid;letter-spacing:.02em;font-family:'DM Sans',sans-serif;
+}
+.bg{background:var(--green-bg);color:var(--green);border-color:var(--green-b)}
+.bb{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-border)}
+.br{background:var(--red-bg);color:var(--red);border-color:var(--red-b)}
+.by{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-b)}
+.bgr{background:var(--bg);color:var(--mid);border-color:var(--border)}
+
+/* INPUTS */
+.ohid-input{
+  width:100%;padding:10px 14px;border-radius:var(--r-sm);
+  border:1px solid var(--border2);background:var(--surface);
+  font-family:'DM Sans',sans-serif;font-size:.875rem;color:var(--ink);
+  transition:border-color .15s,box-shadow .15s;outline:none;
+}
+.ohid-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(27,79,216,.1)}
+.ohid-input::placeholder{color:var(--muted)}
+.ohid-input option{background:var(--surface);color:var(--ink)}
+
+/* BUTTONS */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:9px 18px;border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;
+  font-weight:500;font-size:.875rem;cursor:pointer;border:1px solid;text-decoration:none;
+  transition:all .15s;line-height:1;
+}
+.btn-p{background:var(--ink);color:#fff;border-color:var(--ink2);box-shadow:0 1px 3px rgba(9,16,31,.2)}
+.btn-p:hover{background:var(--ink2);transform:translateY(-1px);box-shadow:0 4px 16px rgba(9,16,31,.25)}
+.btn-g{background:transparent;color:var(--mid);border-color:var(--border2)}
+.btn-g:hover{background:var(--bg);color:var(--ink)}
+.btn-d{background:var(--red-bg);color:var(--red);border-color:var(--red-b)}
+.btn-d:hover{background:#fee2e2}
+
+/* SECTION LABEL */
+.sec-lbl{font-size:.68rem;font-weight:600;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+
+/* DIVIDER */
+.ohid-divider{height:1px;background:var(--border);margin:20px 0}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.08s}
+.reveal-delay-2{transition-delay:.16s}
+.reveal-delay-3{transition-delay:.24s}
+.reveal-delay-4{transition-delay:.32s}
+.reveal-delay-5{transition-delay:.40s}
+
+/* MODAL */
+.modal-overlay{
+  position:fixed;inset:0;z-index:300;background:rgba(9,16,31,.45);backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;padding:16px;
+}
+.modal-box{
+  background:var(--surface);border-radius:var(--r-lg);border:1px solid var(--border);
+  box-shadow:var(--sh-lg);width:100%;max-width:460px;padding:28px;
+}
+
+/* TOAST */
+#ohid-toasts{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px}
+.ohid-toast{
+  background:var(--ink);color:#fff;border-radius:var(--r-sm);
+  padding:11px 16px;font-size:.85rem;display:flex;align-items:center;gap:9px;
+  box-shadow:var(--sh-lg);animation:tIn .3s ease;min-width:220px;
+}
+@keyframes tIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* PAGE HEADER */
+.page-hdr{background:var(--surface);border-bottom:1px solid var(--border);padding:24px 0;margin-top:56px}
+.page-hdr-inner{max-width:1200px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.page-hdr-title{font-family:'Fraunces',serif;font-size:1.8rem;font-weight:500;color:var(--ink);letter-spacing:-.02em}
+.page-hdr-sub{font-size:.82rem;color:var(--mid);margin-top:3px}
+
+/* HEALTH ID CHIP */
+.hid-chip{
+  background:var(--ink);color:#fff;border-radius:var(--r-sm);
+  padding:10px 16px;display:inline-flex;align-items:center;gap:12px;
+}
+.hid-chip-lbl{font-size:.6rem;font-weight:600;opacity:.45;letter-spacing:.12em;text-transform:uppercase}
+.hid-chip-num{font-family:'DM Mono',monospace;font-size:1rem;font-weight:500;letter-spacing:.06em;margin-top:2px}
+.hid-chip-meta{font-size:.68rem;opacity:.4;margin-top:2px}
+
+/* TABLE */
+.ohid-tbl{width:100%;border-collapse:separate;border-spacing:0}
+.ohid-tbl th{background:var(--bg);color:var(--muted);font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:11px 16px;border-bottom:1px solid var(--border);text-align:left}
+.ohid-tbl td{padding:12px 16px;border-bottom:1px solid var(--border);font-size:.875rem;color:var(--mid);vertical-align:middle}
+.ohid-tbl tbody tr:last-child td{border-bottom:none}
+.ohid-tbl tbody tr:hover td{background:var(--bg)}
+
+/* PROGRESS */
+.prog{height:4px;background:var(--border);border-radius:99px;overflow:hidden}
+.prog-fill{height:100%;border-radius:99px;transition:width 1s ease}
+.prog-blue{background:var(--blue)}
+.prog-green{background:var(--green)}
+
+/* EMPTY */
+.ohid-empty{padding:40px;text-align:center;color:var(--muted)}
+.ohid-empty i{font-size:1.8rem;display:block;margin-bottom:10px;color:var(--faint)}
+</style><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+.ohid-page{background:var(--bg)}
+.patient-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:22px 0}
+.patient-bar-inner{max-width:1200px;margin:0 auto;padding:0 28px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.patient-greet{font-size:.78rem;color:var(--muted);font-weight:500;margin-bottom:3px}
+.patient-name{font-family:'Fraunces',serif;font-size:2rem;color:var(--ink);letter-spacing:-.02em;font-weight:500}
+.patient-sub{font-size:.78rem;color:var(--muted);margin-top:4px}
+.dash-body{max-width:1200px;margin:0 auto;padding:24px 28px;display:flex;flex-direction:column;gap:20px}
+.qs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.qs{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;transition:all .2s}
+.qs:hover{box-shadow:var(--sh-md);border-color:var(--border2);transform:translateY(-1px)}
+.qs-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;font-size:.875rem}
+.qs-val{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:500;color:var(--ink);line-height:1;margin-bottom:3px}
+.qs-label{font-size:.75rem;color:var(--mid);font-weight:500}
+.qs-sub{font-size:.7rem;color:var(--muted);margin-top:2px}
+.two-col{display:grid;grid-template-columns:1fr 340px;gap:20px}
+.col-left{display:flex;flex-direction:column;gap:16px}
+.col-right{display:flex;flex-direction:column;gap:14px}
+.med-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.med-card-head{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.med-card-title{font-size:.875rem;font-weight:600;color:var(--ink)}
+.view-all{font-size:.75rem;color:var(--blue);font-weight:500;text-decoration:none}
+.view-all:hover{text-decoration:underline}
+.rec-row{padding:13px 18px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;transition:background .15s}
+.rec-row:last-child{border-bottom:none}
+.rec-row:hover{background:var(--bg)}
+.rec-src{font-size:.67rem;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
+.rec-title{font-size:.875rem;font-weight:600;color:var(--ink);margin-bottom:1px}
+.rec-sub{font-size:.75rem;color:var(--mid)}
+.rec-date{font-size:.68rem;color:var(--muted);font-family:'DM Mono',monospace;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.med-item{padding:11px 14px;border-radius:var(--r-sm);border:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:space-between;gap:10px;transition:border-color .15s}
+.med-item:hover{border-color:var(--border2)}
+.med-item-name{font-size:.85rem;font-weight:600;color:var(--ink)}
+.med-item-dose{font-size:.72rem;color:var(--mid);margin-top:1px}
+.med-item-until{font-size:.68rem;color:var(--mid);font-family:'DM Mono',monospace;text-align:right;white-space:nowrap}
+.wear-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border)}
+.wear-row:last-child{border-bottom:none}
+.wear-label{font-size:.8rem;color:var(--mid);display:flex;align-items:center;gap:7px}
+.wear-val{font-size:.85rem;font-weight:600;color:var(--ink);font-family:'DM Mono',monospace}
+.ql-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:7px;text-decoration:none;color:var(--mid);font-size:.83rem;font-weight:500;transition:all .15s}
+.ql-item:hover{background:var(--bg);color:var(--ink)}
+.ql-item i{width:14px;text-align:center;font-size:.75rem;color:var(--muted)}
+.ql-arr{margin-left:auto;font-size:.6rem;opacity:.35}
+</style>
+</head>
+<body>
+
+<nav class="ohid-nav">
+  <div class="ohid-nav-inner">
+    <a href="/dashboard" class="ohid-logo">
+      <div class="ohid-logo-mark">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 1.5C8 1.5 3 5 3 9.5C3 12.538 5.239 15 8 15C10.761 15 13 12.538 13 9.5C13 5 8 1.5 8 1.5Z" fill="white" opacity=".9"/>
+          <path d="M5.5 9L7 11L10.5 7" stroke="#09101f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="ohid-logo-name">OneHealthID</span>
+    </a>
+    <div class="ohid-nav-links">
+      <a href="/dashboard" class="ohid-nav-link active">Overview</a>
+      <a href="/history"   class="ohid-nav-link ">Records</a>
+      <a href="/analytics" class="ohid-nav-link ">Analytics</a>
+      <a href="/uploads"   class="ohid-nav-link ">Vault</a>
+      <a href="/privacy"   class="ohid-nav-link ">Privacy</a>
+    </div>
+    <div class="ohid-nav-right">
+      <div class="ohid-avatar"><%= user.name.charAt(0).toUpperCase() %></div>
+      <a href="/logout" class="ohid-signout">Sign out</a>
+    </div>
+  </div>
+</nav>
+
+<div id="ohid-toasts"></div>
+<script>
+function ohidToast(m,t){
+  const w=document.getElementById('ohid-toasts');
+  const d=document.createElement('div');
+  d.className='ohid-toast';
+  d.innerHTML='<i class="fa-solid '+(t==='e'?'fa-circle-exclamation':'fa-circle-check')+'" style="color:'+(t==='e'?'#f87171':'#4ade80')+'"></i>'+m;
+  w.appendChild(d);
+  setTimeout(()=>{d.style.opacity='0';d.style.transform='translateY(8px)';d.style.transition='all .3s';setTimeout(()=>d.remove(),300)},3500);
+}
+// Scroll reveal
+const _ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');_ro.unobserve(e.target)}})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>_ro.observe(el));
+</script>
+<div class="ohid-page">
+  <div class="patient-bar">
+    <div class="patient-bar-inner">
+      <div>
+        <div class="patient-greet"><%= (new Date().getHours()<12)?'Good morning':(new Date().getHours()<17)?'Good afternoon':'Good evening' %></div>
+        <div class="patient-name"><%= user.name %></div>
+        <div class="patient-sub"><%= user.email||'' %><% if(user.email){ %> &nbsp;·&nbsp; <% } %><%= user.age %>y &nbsp;·&nbsp; <%= user.gender||'—' %> &nbsp;·&nbsp; Blood: <strong style="color:var(--ink)"><%= user.blood_group||'—' %></strong></div>
+      </div>
+      <div class="hid-chip">
+        <div>
+          <div class="hid-chip-lbl">OneHealth ID</div>
+          <div class="hid-chip-num">#<%= String(user.user_id).padStart(8,'0') %></div>
+          <div class="hid-chip-meta">Accepted at all registered facilities</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dash-body">
+
+    <!-- Summary stats -->
+    <div>
+      <div class="sec-lbl" style="margin-bottom:12px">Health Summary</div>
+      <div class="qs-grid">
+        <div class="qs"><div class="qs-icon" style="background:#eef2ff"><i class="fa-solid fa-calendar-check" style="color:var(--blue)"></i></div><div class="qs-val"><%= recentCR.length %></div><div class="qs-label">Clinic visits</div><div class="qs-sub">On record</div></div>
+        <div class="qs"><div class="qs-icon" style="background:var(--green-bg)"><i class="fa-solid fa-flask" style="color:var(--green)"></i></div><div class="qs-val"><%= recentLR.length %></div><div class="qs-label">Lab reports</div><div class="qs-sub">Available</div></div>
+        <div class="qs"><div class="qs-icon" style="background:var(--amber-bg)"><i class="fa-solid fa-pills" style="color:var(--amber)"></i></div><div class="qs-val"><%= meds.length %></div><div class="qs-label">Active prescriptions</div><div class="qs-sub">Ongoing</div></div>
+        <div class="qs"><div class="qs-icon" style="background:#fdf4ff"><i class="fa-solid fa-folder-open" style="color:#7c3aed"></i></div><div class="qs-val"><%= uploads.length %></div><div class="qs-label">Documents</div><div class="qs-sub">In vault</div></div>
+      </div>
+    </div>
+
+    <!-- Two column -->
+    <div class="two-col">
+
+      <div class="col-left">
+        <!-- Clinic visits -->
+        <div class="med-card">
+          <div class="med-card-head"><span class="med-card-title">Recent Clinic Visits</span><a href="/history" class="view-all">View all →</a></div>
+          <% if(recentCR.length>0){ recentCR.forEach(function(r){ %>
+          <div class="rec-row">
+            <div style="flex:1;min-width:0">
+              <div class="rec-src">Clinic &nbsp;·&nbsp; <%= r.clinic_name %></div>
+              <div class="rec-title"><%= r.diagnosis %></div>
+              <div class="rec-sub">Dr. <%= r.doctor_name %><% if(r.medication_prescribed){ %> &nbsp;·&nbsp; <span style="color:var(--green)"><i class="fa-solid fa-pills" style="font-size:.65rem;margin-right:3px"></i><%= r.medication_prescribed %></span><% } %></div>
+            </div>
+            <div class="rec-date"><%= new Date(r.visit_date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) %></div>
+          </div>
+          <% }) } else { %><div class="ohid-empty"><i class="fa-regular fa-calendar"></i>No clinic visits recorded</div><% } %>
+        </div>
+
+        <!-- Lab reports -->
+        <div class="med-card">
+          <div class="med-card-head"><span class="med-card-title">Recent Lab Reports</span><a href="/history" class="view-all">View all →</a></div>
+          <% if(recentLR.length>0){ recentLR.forEach(function(r){ %>
+          <div class="rec-row">
+            <div style="flex:1;min-width:0">
+              <div class="rec-src">Lab &nbsp;·&nbsp; <%= r.lab_name %></div>
+              <div class="rec-title"><%= r.test_name %></div>
+              <div class="rec-sub">Result: <span class="mono" style="color:var(--ink);font-weight:600"><%= r.result_value %></span></div>
+            </div>
+            <div class="rec-date"><%= new Date(r.test_date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) %></div>
+          </div>
+          <% }) } else { %><div class="ohid-empty"><i class="fa-solid fa-flask"></i>No lab reports on record</div><% } %>
+        </div>
+
+        <!-- Wearable chart -->
+        <% if(w){ %>
+        <div class="med-card">
+          <div class="med-card-head">
+            <span class="med-card-title">Wearable Data</span>
+            <span style="font-size:.68rem;color:var(--muted);font-family:'DM Mono',monospace"><%= new Date(w.record_date).toLocaleDateString('en-IN',{day:'numeric',month:'short'}) %></span>
+          </div>
+          <div style="padding:16px 18px">
+            <div class="wear-row"><span class="wear-label"><i class="fa-solid fa-shoe-prints" style="color:var(--blue)"></i>Steps</span><span class="wear-val"><%= (w.steps||0).toLocaleString() %> <span style="color:var(--muted);font-size:.7rem">/ 10k</span></span></div>
+            <div class="wear-row"><span class="wear-label"><i class="fa-solid fa-moon" style="color:#7c3aed"></i>Sleep</span><span class="wear-val"><%= w.sleep_hours %>h <span style="color:var(--muted);font-size:.7rem">/ 8h</span></span></div>
+            <div class="wear-row"><span class="wear-label"><i class="fa-solid fa-heart" style="color:var(--red)"></i>Heart Rate</span><span class="wear-val"><%= w.heart_rate %> <span style="color:var(--muted);font-size:.7rem">bpm</span></span></div>
+            <div style="margin-top:14px;height:64px"><canvas id="miniChart"></canvas></div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+
+      <div class="col-right">
+        <!-- Active meds -->
+        <div class="med-card">
+          <div class="med-card-head"><span class="med-card-title">Active Prescriptions</span><span class="badge <%= meds.length>0?'bg':'bgr' %>"><%= meds.length %></span></div>
+          <div style="padding:10px 12px;display:flex;flex-direction:column;gap:7px">
+            <% if(meds.length>0){ meds.forEach(function(m){ %>
+            <div class="med-item">
+              <div><div class="med-item-name"><%= m.medication_name %></div><div class="med-item-dose"><%= m.dosage %></div></div>
+              <div class="med-item-until">Until<br/><%= new Date(m.end_date).toLocaleDateString('en-IN',{day:'numeric',month:'short'}) %></div>
+            </div>
+            <% }) } else { %><div class="ohid-empty" style="padding:14px"><i class="fa-solid fa-pills"></i>No active prescriptions</div><% } %>
+          </div>
+        </div>
+
+        <!-- Quick links -->
+        <div class="med-card">
+          <div class="med-card-head"><span class="med-card-title">Quick Access</span></div>
+          <div style="padding:6px 10px">
+            <% [
+              ['/history','fa-clock-rotate-left','Full Medical Timeline'],
+              ['/history','fa-flask','All Lab Reports'],
+              ['/uploads','fa-folder-open','Document Vault'],
+              ['/analytics','fa-chart-line','Health Analytics'],
+              ['/privacy','fa-shield','Privacy Controls'],
+            ].forEach(function(q){ %>
+            <a href="<%= q[0] %>" class="ql-item">
+              <i class="fa-regular <%= q[1] %>"></i><%= q[2] %>
+              <i class="fa-solid fa-arrow-right ql-arr"></i>
+            </a>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const wTrend = <%- wTrend %>;
+if(wTrend.length && document.getElementById('miniChart')){
+  new Chart(document.getElementById('miniChart').getContext('2d'),{
+    type:'line',
+    data:{
+      labels:wTrend.map(r=>new Date(r.record_date).toLocaleDateString('en-IN',{month:'short',day:'numeric'})),
+      datasets:[{data:wTrend.map(r=>r.steps),borderColor:'#1B4FD8',backgroundColor:'rgba(27,79,216,.06)',borderWidth:2,pointRadius:3,pointBackgroundColor:'#1B4FD8',fill:true,tension:.4}]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:false}}}
+  });
+}
+</script>
+</body></html>

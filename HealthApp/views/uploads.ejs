@@ -1,0 +1,355 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Document Vault — OneHealthID</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,500&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#09101f;--ink2:#1d2b45;--ink3:#3a4a6b;
+  --mid:#6b7a99;--muted:#9ba8c4;--faint:#c8d0e4;
+  --border:#e3e8f2;--border2:#d0d7eb;
+  --bg:#f6f7fb;--surface:#ffffff;
+  --blue:#1B4FD8;--blue2:#1541b8;--blue-bg:#eef2ff;--blue-border:#c7d4f8;
+  --green:#0c6b3f;--green-bg:#edfaf4;--green-b:#a7e8c8;
+  --red:#b91c1c;--red-bg:#fef2f2;--red-b:#fecaca;
+  --amber:#92600a;--amber-bg:#fffbeb;--amber-b:#fde68a;
+  --r:12px;--r-sm:8px;--r-lg:20px;
+  --sh:0 1px 4px rgba(9,16,31,.06),0 1px 2px rgba(9,16,31,.04);
+  --sh-md:0 4px 20px rgba(9,16,31,.08),0 1px 4px rgba(9,16,31,.05);
+  --sh-lg:0 16px 60px rgba(9,16,31,.12),0 4px 16px rgba(9,16,31,.06);
+}
+html{font-size:15px;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;min-height:100vh}
+.serif{font-family:'Fraunces',serif}
+.mono{font-family:'DM Mono',monospace}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px}
+
+/* NAV */
+.ohid-nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:rgba(246,247,251,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);height:56px;
+  display:flex;align-items:center;
+}
+.ohid-nav-inner{
+  max-width:1200px;margin:0 auto;padding:0 28px;width:100%;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.ohid-logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.ohid-logo-mark{
+  width:30px;height:30px;border-radius:8px;background:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+}
+.ohid-logo-mark svg{width:16px;height:16px}
+.ohid-logo-name{font-family:'Fraunces',serif;font-size:.95rem;font-weight:500;color:var(--ink);letter-spacing:-.01em}
+.ohid-nav-links{display:flex;align-items:center;gap:1px}
+.ohid-nav-link{
+  padding:6px 13px;border-radius:7px;font-size:.82rem;font-weight:500;
+  color:var(--mid);text-decoration:none;transition:all .15s;display:flex;align-items:center;gap:6px;
+}
+.ohid-nav-link:hover{color:var(--ink);background:rgba(9,16,31,.05)}
+.ohid-nav-link.active{color:var(--blue);background:var(--blue-bg)}
+.ohid-nav-right{display:flex;align-items:center;gap:8px}
+.ohid-avatar{
+  width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;
+  font-size:.75rem;font-weight:600;display:flex;align-items:center;justify-content:center;
+  font-family:'DM Sans',sans-serif;
+}
+.ohid-signout{
+  font-size:.78rem;font-weight:500;color:var(--mid);text-decoration:none;
+  padding:5px 11px;border-radius:7px;border:1px solid var(--border2);
+  background:var(--surface);transition:all .15s;
+}
+.ohid-signout:hover{color:var(--red);border-color:var(--red-b);background:var(--red-bg)}
+
+/* PAGE SHELL */
+.ohid-page{padding-top:56px}
+.ohid-wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh)}
+.card-lift{transition:transform .2s,box-shadow .2s,border-color .2s}
+.card-lift:hover{transform:translateY(-2px);box-shadow:var(--sh-md);border-color:var(--border2)}
+
+/* BADGES */
+.badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:2px 8px;border-radius:99px;font-size:.68rem;font-weight:600;
+  border:1px solid;letter-spacing:.02em;font-family:'DM Sans',sans-serif;
+}
+.bg{background:var(--green-bg);color:var(--green);border-color:var(--green-b)}
+.bb{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-border)}
+.br{background:var(--red-bg);color:var(--red);border-color:var(--red-b)}
+.by{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-b)}
+.bgr{background:var(--bg);color:var(--mid);border-color:var(--border)}
+
+/* INPUTS */
+.ohid-input{
+  width:100%;padding:10px 14px;border-radius:var(--r-sm);
+  border:1px solid var(--border2);background:var(--surface);
+  font-family:'DM Sans',sans-serif;font-size:.875rem;color:var(--ink);
+  transition:border-color .15s,box-shadow .15s;outline:none;
+}
+.ohid-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(27,79,216,.1)}
+.ohid-input::placeholder{color:var(--muted)}
+.ohid-input option{background:var(--surface);color:var(--ink)}
+
+/* BUTTONS */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:9px 18px;border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;
+  font-weight:500;font-size:.875rem;cursor:pointer;border:1px solid;text-decoration:none;
+  transition:all .15s;line-height:1;
+}
+.btn-p{background:var(--ink);color:#fff;border-color:var(--ink2);box-shadow:0 1px 3px rgba(9,16,31,.2)}
+.btn-p:hover{background:var(--ink2);transform:translateY(-1px);box-shadow:0 4px 16px rgba(9,16,31,.25)}
+.btn-g{background:transparent;color:var(--mid);border-color:var(--border2)}
+.btn-g:hover{background:var(--bg);color:var(--ink)}
+.btn-d{background:var(--red-bg);color:var(--red);border-color:var(--red-b)}
+.btn-d:hover{background:#fee2e2}
+
+/* SECTION LABEL */
+.sec-lbl{font-size:.68rem;font-weight:600;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+
+/* DIVIDER */
+.ohid-divider{height:1px;background:var(--border);margin:20px 0}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.08s}
+.reveal-delay-2{transition-delay:.16s}
+.reveal-delay-3{transition-delay:.24s}
+.reveal-delay-4{transition-delay:.32s}
+.reveal-delay-5{transition-delay:.40s}
+
+/* MODAL */
+.modal-overlay{
+  position:fixed;inset:0;z-index:300;background:rgba(9,16,31,.45);backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;padding:16px;
+}
+.modal-box{
+  background:var(--surface);border-radius:var(--r-lg);border:1px solid var(--border);
+  box-shadow:var(--sh-lg);width:100%;max-width:460px;padding:28px;
+}
+
+/* TOAST */
+#ohid-toasts{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px}
+.ohid-toast{
+  background:var(--ink);color:#fff;border-radius:var(--r-sm);
+  padding:11px 16px;font-size:.85rem;display:flex;align-items:center;gap:9px;
+  box-shadow:var(--sh-lg);animation:tIn .3s ease;min-width:220px;
+}
+@keyframes tIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* PAGE HEADER */
+.page-hdr{background:var(--surface);border-bottom:1px solid var(--border);padding:24px 0;margin-top:56px}
+.page-hdr-inner{max-width:1200px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.page-hdr-title{font-family:'Fraunces',serif;font-size:1.8rem;font-weight:500;color:var(--ink);letter-spacing:-.02em}
+.page-hdr-sub{font-size:.82rem;color:var(--mid);margin-top:3px}
+
+/* HEALTH ID CHIP */
+.hid-chip{
+  background:var(--ink);color:#fff;border-radius:var(--r-sm);
+  padding:10px 16px;display:inline-flex;align-items:center;gap:12px;
+}
+.hid-chip-lbl{font-size:.6rem;font-weight:600;opacity:.45;letter-spacing:.12em;text-transform:uppercase}
+.hid-chip-num{font-family:'DM Mono',monospace;font-size:1rem;font-weight:500;letter-spacing:.06em;margin-top:2px}
+.hid-chip-meta{font-size:.68rem;opacity:.4;margin-top:2px}
+
+/* TABLE */
+.ohid-tbl{width:100%;border-collapse:separate;border-spacing:0}
+.ohid-tbl th{background:var(--bg);color:var(--muted);font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:11px 16px;border-bottom:1px solid var(--border);text-align:left}
+.ohid-tbl td{padding:12px 16px;border-bottom:1px solid var(--border);font-size:.875rem;color:var(--mid);vertical-align:middle}
+.ohid-tbl tbody tr:last-child td{border-bottom:none}
+.ohid-tbl tbody tr:hover td{background:var(--bg)}
+
+/* PROGRESS */
+.prog{height:4px;background:var(--border);border-radius:99px;overflow:hidden}
+.prog-fill{height:100%;border-radius:99px;transition:width 1s ease}
+.prog-blue{background:var(--blue)}
+.prog-green{background:var(--green)}
+
+/* EMPTY */
+.ohid-empty{padding:40px;text-align:center;color:var(--muted)}
+.ohid-empty i{font-size:1.8rem;display:block;margin-bottom:10px;color:var(--faint)}
+</style>
+</head>
+<style>
+.ohid-page{background:var(--bg)}
+.vault-body{max-width:1200px;margin:0 auto;padding:24px 28px;display:flex;flex-direction:column;gap:18px}
+.vault-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.vs{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px}
+.vs-icon{font-size:.875rem;margin-bottom:8px}
+.vs-val{font-family:'Fraunces',serif;font-size:1.5rem;color:var(--ink);font-weight:500;line-height:1;margin-bottom:3px}
+.vs-lbl{font-size:.7rem;font-weight:600;color:var(--muted);letter-spacing:.07em;text-transform:uppercase}
+.filter-bar{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.fb{padding:5px 12px;border-radius:99px;font-size:.78rem;font-weight:500;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--mid);transition:all .15s;font-family:'DM Sans',sans-serif}
+.fb:hover{border-color:var(--border2);color:var(--ink)}
+.fb.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.doc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.doc-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:all .2s}
+.doc-card:hover{box-shadow:var(--sh-md);transform:translateY(-2px);border-color:var(--border2)}
+.doc-preview{height:110px;background:var(--bg);display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border)}
+.doc-info{padding:12px 14px}
+.doc-name{font-size:.85rem;font-weight:600;color:var(--ink);word-break:break-all;line-height:1.3;margin-bottom:3px}
+.doc-type-badge{margin-bottom:5px}
+.doc-notes{font-size:.72rem;color:var(--mid);font-style:italic;margin-bottom:5px}
+.doc-date{font-size:.68rem;color:var(--muted);font-family:'DM Mono',monospace}
+.doc-btns{display:flex;gap:5px;margin-top:9px}
+</style>
+<body>
+
+<nav class="ohid-nav">
+  <div class="ohid-nav-inner">
+    <a href="/dashboard" class="ohid-logo">
+      <div class="ohid-logo-mark">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 1.5C8 1.5 3 5 3 9.5C3 12.538 5.239 15 8 15C10.761 15 13 12.538 13 9.5C13 5 8 1.5 8 1.5Z" fill="white" opacity=".9"/>
+          <path d="M5.5 9L7 11L10.5 7" stroke="#09101f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="ohid-logo-name">OneHealthID</span>
+    </a>
+    <div class="ohid-nav-links">
+      <a href="/dashboard" class="ohid-nav-link ">Overview</a>
+      <a href="/history"   class="ohid-nav-link ">Records</a>
+      <a href="/analytics" class="ohid-nav-link ">Analytics</a>
+      <a href="/uploads"   class="ohid-nav-link active">Vault</a>
+      <a href="/privacy"   class="ohid-nav-link ">Privacy</a>
+    </div>
+    <div class="ohid-nav-right">
+      <div class="ohid-avatar"><%= user.name.charAt(0).toUpperCase() %></div>
+      <a href="/logout" class="ohid-signout">Sign out</a>
+    </div>
+  </div>
+</nav>
+
+<div id="ohid-toasts"></div>
+<script>
+function ohidToast(m,t){
+  const w=document.getElementById('ohid-toasts');
+  const d=document.createElement('div');
+  d.className='ohid-toast';
+  d.innerHTML='<i class="fa-solid '+(t==='e'?'fa-circle-exclamation':'fa-circle-check')+'" style="color:'+(t==='e'?'#f87171':'#4ade80')+'"></i>'+m;
+  w.appendChild(d);
+  setTimeout(()=>{d.style.opacity='0';d.style.transform='translateY(8px)';d.style.transition='all .3s';setTimeout(()=>d.remove(),300)},3500);
+}
+// Scroll reveal
+const _ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');_ro.unobserve(e.target)}})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>_ro.observe(el));
+</script>
+<div class="ohid-page">
+  <div class="page-hdr">
+    <div class="page-hdr-inner">
+      <div>
+        <div class="page-hdr-title">Document Vault</div>
+        <div class="page-hdr-sub">Prescriptions, lab reports, scans — encrypted and accessible anywhere.</div>
+      </div>
+      <button onclick="document.getElementById('upModal').style.display='flex'" class="btn btn-p"><i class="fa-solid fa-cloud-arrow-up"></i>Upload Document</button>
+    </div>
+  </div>
+
+  <div class="vault-body">
+    <% if(flash&&flash.success&&flash.success[0]){ %>
+    <div style="background:var(--green-bg);border:1px solid var(--green-b);border-radius:var(--r-sm);padding:11px 14px;display:flex;align-items:center;gap:8px;color:var(--green);font-size:.85rem">
+      <i class="fa-solid fa-circle-check"></i><%= flash.success[0] %>
+    </div>
+    <% } %>
+
+    <div class="vault-stats">
+      <% const pdfs=uploads.filter(u=>u.original_name&&u.original_name.toLowerCase().endsWith('.pdf'));
+         const imgs=uploads.filter(u=>!u.original_name||!u.original_name.toLowerCase().endsWith('.pdf'));
+         const cats=[...new Set(uploads.map(u=>u.doc_type))]; %>
+      <div class="vs"><div class="vs-icon"><i class="fa-solid fa-folder-open" style="color:var(--blue)"></i></div><div class="vs-val"><%= uploads.length %></div><div class="vs-lbl">Total Documents</div></div>
+      <div class="vs"><div class="vs-icon"><i class="fa-solid fa-file-pdf" style="color:var(--red)"></i></div><div class="vs-val"><%= pdfs.length %></div><div class="vs-lbl">PDF Reports</div></div>
+      <div class="vs"><div class="vs-icon"><i class="fa-solid fa-image" style="color:var(--blue)"></i></div><div class="vs-val"><%= imgs.length %></div><div class="vs-lbl">Images / Scans</div></div>
+      <div class="vs"><div class="vs-icon"><i class="fa-solid fa-tags" style="color:#7c3aed"></i></div><div class="vs-val"><%= cats.length %></div><div class="vs-lbl">Categories</div></div>
+    </div>
+
+    <% if(uploads.length){ %>
+    <div class="filter-bar reveal reveal-delay-1">
+      <button class="fb on" onclick="filterDocs('',this)">All</button>
+      <% cats.forEach(function(c){ %><button class="fb" onclick="filterDocs('<%= c %>',this)"><%= c %></button><% }) %>
+    </div>
+    <div class="doc-grid reveal reveal-delay-2" id="docGrid">
+      <% uploads.forEach(function(u){ %>
+      <div class="doc-card" data-cat="<%= u.doc_type %>">
+        <div class="doc-preview">
+          <% if(u.original_name&&!u.original_name.toLowerCase().endsWith('.pdf')){ %>
+          <img src="<%= u.file_url %>" style="height:100%;width:100%;object-fit:cover" onerror="this.parentNode.innerHTML='<i class=\'fa-solid fa-image\' style=\'font-size:2rem;color:var(--faint)\'></i>'"/>
+          <% } else { %><i class="fa-solid fa-file-pdf" style="font-size:2rem;color:var(--red)"></i><% } %>
+        </div>
+        <div class="doc-info">
+          <div class="doc-type-badge"><span class="badge bb" style="font-size:.6rem"><%= u.doc_type||'Other' %></span></div>
+          <div class="doc-name"><%= (u.original_name||'File').substring(0,30) %><%= (u.original_name||'').length>30?'...':'' %></div>
+          <% if(u.notes){ %><div class="doc-notes"><%= u.notes.substring(0,45) %></div><% } %>
+          <div class="doc-date"><% if(u.doc_date){ %><%= new Date(u.doc_date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) %> · <% } %>Added <%= new Date(u.uploaded_at).toLocaleDateString('en-IN') %></div>
+          <div class="doc-btns">
+            <a href="<%= u.file_url %>" target="_blank" class="btn btn-p" style="flex:1;padding:7px;font-size:.75rem"><i class="fa-solid fa-eye"></i>View</a>
+            <a href="<%= u.file_url %>" download class="btn btn-g" style="padding:7px 10px;font-size:.75rem"><i class="fa-solid fa-download"></i></a>
+            <form method="POST" action="/uploads/delete" onsubmit="return confirm('Delete permanently?')" style="display:inline">
+              <input type="hidden" name="upload_id" value="<%= u.upload_id %>"/>
+              <button type="submit" class="btn btn-d" style="padding:7px 10px"><i class="fa-solid fa-trash" style="font-size:.72rem"></i></button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+    <% } else { %>
+    <div class="card" style="padding:64px;text-align:center" class="reveal">
+      <div style="width:60px;height:60px;background:var(--bg);border:1px solid var(--border);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px"><i class="fa-solid fa-folder-open" style="font-size:1.4rem;color:var(--muted)"></i></div>
+      <div style="font-family:'Fraunces',serif;font-size:1.1rem;color:var(--ink);margin-bottom:6px">Your vault is empty</div>
+      <div style="font-size:.82rem;color:var(--muted);max-width:340px;margin:0 auto 20px;line-height:1.6">Upload prescriptions, discharge summaries, lab reports, or any health document.</div>
+      <button onclick="document.getElementById('upModal').style.display='flex'" class="btn btn-p"><i class="fa-solid fa-cloud-arrow-up"></i>Upload Your First Document</button>
+    </div>
+    <% } %>
+  </div>
+</div>
+
+<!-- Upload Modal -->
+<div id="upModal" class="modal-overlay" style="display:none" onclick="if(event.target===this)this.style.display='none'">
+  <div class="modal-box">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <div style="font-family:'Fraunces',serif;font-size:1.15rem;color:var(--ink)">Upload Document</div>
+      <button onclick="document.getElementById('upModal').style.display='none'" style="background:none;border:none;color:var(--muted);cursor:pointer"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form method="POST" action="/uploads" enctype="multipart/form-data" style="display:flex;flex-direction:column;gap:14px">
+      <label style="cursor:pointer" for="fInput">
+        <div id="dropZ" style="border:1.5px dashed var(--border2);border-radius:var(--r-sm);padding:28px;text-align:center;transition:all .2s;background:var(--bg)">
+          <i class="fa-solid fa-cloud-arrow-up" style="font-size:1.5rem;color:var(--muted);display:block;margin-bottom:8px"></i>
+          <div style="font-size:.85rem;font-weight:600;color:var(--ink);margin-bottom:3px">Drop file here or click to browse</div>
+          <div style="font-size:.72rem;color:var(--muted)">PDF, JPG, PNG · max 15MB</div>
+          <div id="fName" style="margin-top:8px;font-size:.78rem;color:var(--blue);font-family:'DM Mono',monospace;display:none"></div>
+        </div>
+        <input type="file" id="fInput" name="health_file" required accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="document.getElementById('fName').textContent='📎 '+this.files[0].name;document.getElementById('fName').style.display='block';document.getElementById('dropZ').style.borderColor='var(--blue)'"/>
+      </label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div>
+          <label style="display:block;font-size:.7rem;font-weight:600;color:var(--ink3);letter-spacing:.05em;text-transform:uppercase;margin-bottom:5px">Type</label>
+          <select name="doc_type" class="ohid-input"><option>Prescription</option><option>Lab Report</option><option>Scan / Imaging</option><option>Discharge Summary</option><option>Vaccination</option><option>Insurance</option><option>Other</option></select>
+        </div>
+        <div>
+          <label style="display:block;font-size:.7rem;font-weight:600;color:var(--ink3);letter-spacing:.05em;text-transform:uppercase;margin-bottom:5px">Date</label>
+          <input type="date" name="doc_date" class="ohid-input"/>
+        </div>
+      </div>
+      <div>
+        <label style="display:block;font-size:.7rem;font-weight:600;color:var(--ink3);letter-spacing:.05em;text-transform:uppercase;margin-bottom:5px">Notes (optional)</label>
+        <textarea name="notes" rows="2" placeholder="e.g. Post-op report from Dr. Sharma, Apollo Hospital" class="ohid-input" style="resize:none"></textarea>
+      </div>
+      <button type="submit" class="btn btn-p" style="width:100%;padding:12px"><i class="fa-solid fa-lock"></i>Securely Upload to Vault</button>
+    </form>
+  </div>
+</div>
+<script>
+function filterDocs(cat,btn){document.querySelectorAll('.fb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.querySelectorAll('.doc-card').forEach(c=>{c.style.display=(!cat||c.dataset.cat===cat)?'':'none'})}
+</script>
+</body></html>

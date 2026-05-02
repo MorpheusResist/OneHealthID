@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Medical History – HealthSync</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono&display=swap" rel="stylesheet"/>
+  <style>
+    *{font-family:'DM Sans',sans-serif}
+    code,pre{font-family:'DM Mono',monospace}
+    .gradient-bg{background:linear-gradient(135deg,#f0fdfa 0%,#e0f2fe 50%,#f0fdf4 100%)}
+    .card-hover{transition:all .3s cubic-bezier(.4,0,.2,1)}
+    .card-hover:hover{transform:translateY(-4px);box-shadow:0 20px 40px -12px rgba(20,184,166,.15)}
+    .badge-read{background:#dbeafe;color:#1d4ed8}
+    .badge-write{background:#dcfce7;color:#166534}
+    .badge-admin{background:#fee2e2;color:#991b1b}
+    .progress-track{background:#e2e8f0;border-radius:999px;overflow:hidden}
+    .progress-bar{height:8px;border-radius:999px;background:linear-gradient(90deg,#14b8a6,#0ea5e9);transition:width 1s ease}
+    .timeline-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:4px}
+    .fade-in{animation:fadeIn .5s ease forwards;opacity:0}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    .stagger-1{animation-delay:.1s}.stagger-2{animation-delay:.2s}.stagger-3{animation-delay:.3s}.stagger-4{animation-delay:.4s}.stagger-5{animation-delay:.5s}
+  </style>
+</head>
+<body class="min-h-screen bg-slate-50">
+
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+      <a href="/dashboard" class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center shadow-md">
+          <i class="fa-solid fa-heart-pulse text-white text-sm"></i>
+        </div>
+        <span class="font-bold text-slate-800 text-lg tracking-tight">HealthSync</span>
+      </a>
+      <div class="flex items-center gap-1">
+        <a href="/dashboard" class="nav-link px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-teal-50 hover:text-teal-700 transition-all duration-200 flex items-center gap-2">
+          <i class="fa-solid fa-gauge-high"></i><span class="hidden sm:inline">Dashboard</span>
+        </a>
+        <a href="/history" class="nav-link px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-teal-50 hover:text-teal-700 transition-all duration-200 flex items-center gap-2">
+          <i class="fa-solid fa-timeline"></i><span class="hidden sm:inline">History</span>
+        </a>
+        <a href="/analytics" class="nav-link px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-teal-50 hover:text-teal-700 transition-all duration-200 flex items-center gap-2">
+          <i class="fa-solid fa-chart-bar"></i><span class="hidden sm:inline">Analytics</span>
+        </a>
+        <a href="/privacy" class="nav-link px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-teal-50 hover:text-teal-700 transition-all duration-200 flex items-center gap-2">
+          <i class="fa-solid fa-shield-halved"></i><span class="hidden sm:inline">Privacy</span>
+        </a>
+        <a href="/logout" class="ml-3 px-4 py-2 rounded-xl text-sm font-medium bg-red-50 text-red-600 hover:bg-red-100 transition-all duration-200 flex items-center gap-2">
+          <i class="fa-solid fa-right-from-bracket"></i><span class="hidden sm:inline">Logout</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+<div class="pt-20 pb-12 px-4 sm:px-6 max-w-4xl mx-auto">
+
+  <div class="mb-8 fade-in">
+    <h1 class="text-3xl font-bold text-slate-800">Medical Timeline</h1>
+    <p class="text-slate-500 text-sm mt-1">Chronological view of all clinic visits and lab reports.</p>
+  </div>
+
+  <% if (timeline.length === 0) { %>
+    <div class="bg-white rounded-2xl shadow-md border border-slate-100 p-12 text-center text-slate-400">
+      <i class="fa-solid fa-folder-open text-5xl mb-4 block text-slate-200"></i>
+      <p class="font-medium">No medical records found.</p>
+    </div>
+  <% } else { %>
+    <div class="relative">
+      <!-- Vertical line -->
+      <div class="absolute left-5 top-2 bottom-2 w-0.5 bg-gradient-to-b from-teal-300 via-slate-200 to-transparent"></div>
+
+      <div class="space-y-5">
+        <% timeline.forEach(function(event, idx){ %>
+          <div class="relative pl-14 fade-in" style="animation-delay:<%= idx * 0.07 %>s">
+            <!-- Dot -->
+            <div class="absolute left-3 top-5 w-4 h-4 rounded-full border-2 border-white shadow-md
+              <%= event.source === 'clinic' ? 'bg-teal-500' : 'bg-cyan-400' %>">
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-md border border-slate-100 p-5 card-hover">
+              <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+                <div class="flex items-center gap-2">
+                  <% if (event.source === 'clinic') { %>
+                    <span class="inline-flex items-center gap-1.5 text-xs font-semibold bg-teal-50 text-teal-700 px-3 py-1 rounded-full">
+                      <i class="fa-solid fa-stethoscope"></i> Clinic Visit
+                    </span>
+                  <% } else { %>
+                    <span class="inline-flex items-center gap-1.5 text-xs font-semibold bg-cyan-50 text-cyan-700 px-3 py-1 rounded-full">
+                      <i class="fa-solid fa-flask"></i> Lab Report
+                    </span>
+                  <% } %>
+                  <span class="text-xs text-slate-400 font-medium">
+                    <i class="fa-solid fa-calendar mr-1"></i>
+                    <%= new Date(event.event_date).toLocaleDateString('en-IN',{weekday:'short',year:'numeric',month:'short',day:'numeric'}) %>
+                  </span>
+                </div>
+                <span class="text-xs text-slate-500 bg-slate-50 px-3 py-1 rounded-full">
+                  <i class="fa-solid fa-location-dot mr-1 text-slate-400"></i><%= event.location %>
+                </span>
+              </div>
+
+              <% if (event.source === 'clinic') { %>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <p class="text-xs text-slate-400 mb-0.5">Doctor</p>
+                    <p class="text-sm font-semibold text-slate-700"><%= event.provider %></p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-slate-400 mb-0.5">Diagnosis</p>
+                    <p class="text-sm font-semibold text-slate-700"><%= event.detail %></p>
+                  </div>
+                  <% if (event.extra) { %>
+                    <div class="sm:col-span-2">
+                      <p class="text-xs text-slate-400 mb-0.5">Prescribed</p>
+                      <p class="text-sm text-slate-600 bg-teal-50 px-3 py-2 rounded-lg">
+                        <i class="fa-solid fa-pills text-teal-500 mr-1.5"></i><%= event.extra %>
+                      </p>
+                    </div>
+                  <% } %>
+                </div>
+              <% } else { %>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <p class="text-xs text-slate-400 mb-0.5">Test</p>
+                    <p class="text-sm font-semibold text-slate-700"><%= event.provider %></p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-slate-400 mb-0.5">Result</p>
+                    <p class="text-sm font-semibold text-cyan-700 bg-cyan-50 px-3 py-1 rounded-lg inline-block"><%= event.detail %></p>
+                  </div>
+                </div>
+              <% } %>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  <% } %>
+</div>
+</body>
+</html>
