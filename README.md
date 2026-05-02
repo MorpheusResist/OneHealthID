@@ -26,4 +26,3 @@ OneHealthID isn't just a database; it's a **Sovereign Health Intelligence Platfo
 
 ---
 
-*Developed as a high-performance DBMS project at SRMIST — engineered to solve a 2.3 trillion healthcare data crisis.*
