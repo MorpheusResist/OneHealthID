@@ -1,0 +1,24 @@
+# dependencies
+node_modules/
+HealthApp/node_modules/
+HealthApp_backup/node_modules/
+
+# Database
+health_fragmentation_db.sql
+
+# Uploads
+HealthApp/public/uploads/*
+!HealthApp/public/uploads/.gitkeep
+HealthApp_backup/public/uploads/*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env
+.env
