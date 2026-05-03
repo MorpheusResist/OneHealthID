@@ -22,6 +22,9 @@ India's healthcare system is crippled by data fragmentation. Patients carry phys
 - **Storage**: Multer-based encrypted file vault
 
 ## Why it Matters
+
+<img width="1819" height="965" alt="image" src="https://github.com/user-attachments/assets/cc89f08c-d009-47c7-a6f8-f96e4b824559" />
+
 OneHealthID isn't just a database; it's a **Sovereign Health Intelligence Platform**. By unifying data, we enable predictive diagnostics and ensure that life-saving information is always in the pocket of the patient, especially during the "Golden Hour" of medical emergencies.
 
 ---
